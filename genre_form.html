@@ -1,0 +1,16 @@
+<!-- app/templates/genre_form.html -->
+{% extends "base.html" %}
+{% block title %}Добавить жанр{% endblock %}
+{% block content %}
+<h2>Добавить жанр</h2>
+<form method="post">
+    {{ form.hidden_tag() }}
+
+    <div class="mb-3">
+        {{ form.name.label(class="form-label") }}
+        {{ form.name(class="form-control") }}
+    </div>
+
+    {{ form.submit(class="btn btn-primary") }}
+</form>
+{% endblock %}

@@ -1,0 +1,16 @@
+<!-- app/templates/author_form.html -->
+{% extends "base.html" %}
+{% block title %}Добавить автора{% endblock %}
+{% block content %}
+<h2>Добавить автора</h2>
+<form method="post">
+    {{ form.hidden_tag() }}
+
+    <div class="mb-3">
+        {{ form.name.label(class="form-label") }}
+        {{ form.name(class="form-control") }}
+    </div>
+
+    {{ form.submit(class="btn btn-primary") }}
+</form>
+{% endblock %}

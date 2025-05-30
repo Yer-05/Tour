@@ -1,0 +1,47 @@
+<!-- app/templates/index.html -->
+{% extends "base.html" %}
+{% block title %}Главная{% endblock %}
+{% block content %}
+
+<!-- 🔍 Форма поиска -->
+<form method="get" class="mb-4">
+    <div class="input-group">
+        <input type="text" name="q" class="form-control" placeholder="Поиск по названию или автору" value="{{ request.args.get('q', '') }}">
+        <button class="btn btn-outline-secondary" type="submit">🔍 Найти</button>
+    </div>
+</form>
+
+<!-- 🔘 Кнопки добавления -->
+<a href="{{ url_for('main.add_book') }}" class="btn btn-primary mb-3">Добавить книгу</a>
+<a href="{{ url_for('main.add_author') }}" class="btn btn-secondary mb-3">Добавить автора</a>
+<a href="{{ url_for('main.add_genre') }}" class="btn btn-secondary mb-3">Добавить жанр</a>
+
+<!-- 📚 Карточки книг -->
+<div class="row">
+    {% for book in books %}
+    <div class="col-md-4">
+        <div class="card mb-4">
+            {% if book.cover %}
+            <img src="{{ url_for('static', filename='uploads/' ~ book.cover) }}" class="card-img-top">
+            {% endif %}
+            <div class="card-body">
+                <h5 class="card-title">{{ book.title }}</h5>
+                <p class="card-text">Автор: {{ book.author.name }}</p>
+                <p class="card-text">Жанры:
+                    {% for genre in book.genres %}
+                        <span class="badge bg-info">{{ genre.name }}</span>
+                    {% endfor %}
+                </p>
+
+                <!-- 🔘 Действия -->
+                <a href="{{ url_for('main.edit_book', book_id=book.id) }}" class="btn btn-sm btn-outline-primary">✏️ Редактировать</a>
+                <form action="{{ url_for('main.delete_book', book_id=book.id) }}" method="post" style="display:inline;">
+                    <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Удалить эту книгу?');">🗑 Удалить</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+{% endblock %}
